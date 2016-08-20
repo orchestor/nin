@@ -2,7 +2,7 @@ const SVG = require('svg.js');
 require('svg.draggable.js');
 const svgPanZoom = require('svg-pan-zoom');
 
-function graphEditor($window, $timeout, demo, socket) {
+function graphEditor($window, $timeout, demo, socket, camera) {
   return {
     restrict: 'A',
     templateUrl: 'views/graph-editor.html',
@@ -25,6 +25,10 @@ function graphEditor($window, $timeout, demo, socket) {
         selectedSVGItem.addClass('selected');
         if(selectedItem.getValue() instanceof THREE.Texture) {
           demo.renderer.overrideToScreenTexture = selectedItem.getValue();
+        }
+        if(selectedItem.constructor.name === "CameraInput") {
+          camera.startEdit(selectedItem);
+          camera.toggleFlyAroundMode();
         }
       }
 
